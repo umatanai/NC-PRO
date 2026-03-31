@@ -9,7 +9,6 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     body { margin: 0; padding: 0; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif; background: #f0f4f0; }
-    /* スクロールバー非表示（iOS用） */
     ::-webkit-scrollbar { display: none; }
   </style>
 </head>
@@ -206,7 +205,7 @@
 
       return (
         <div style={{ minHeight: "100vh", background: "#f0f4f0", color: "#111", paddingBottom: "20px" }}>
-          <div style={{ background: "#00693e" }}>
+          <div style={{ background: "#00693e", paddingBottom: "8px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", gap: "6px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "7px", flexShrink: 0 }}>
                 <div style={{ background: "#fff", borderRadius: "5px", padding: "3px 6px", display: "flex", alignItems: "center", gap: "4px" }}>
@@ -222,8 +221,8 @@
               </div>
             </div>
             
-            {/* レース1〜3切り替え（上段） */}
-            <div style={{ display: "flex", background: "rgba(0,0,0,0.15)", padding: "0 10px" }}>
+            {/* レースボタン（角を丸めて少し隙間を空ける） */}
+            <div style={{ display: "flex", padding: "0 12px", gap: "8px" }}>
               {[1, 2, 3].map(r => (
                 <button
                   key={r}
@@ -232,7 +231,8 @@
                     flex: 1, padding: "10px 0", border: "none",
                     background: currentRace === r ? "#fff" : RACE_BG_COLORS[r],
                     color: currentRace === r ? "#00693e" : "#fff",
-                    fontWeight: "900", cursor: "pointer", borderRadius: "6px 6px 0 0", fontSize: "14px",
+                    fontWeight: "900", cursor: "pointer", borderRadius: "8px", fontSize: "14px",
+                    boxShadow: currentRace === r ? "0 2px 4px rgba(0,0,0,0.2)" : "none",
                     transition: "all 0.2s"
                   }}
                 >
@@ -242,28 +242,31 @@
             </div>
           </div>
 
-          {/* 評価入力／結果切り替え（下段：上と離す） */}
-          <div style={{ marginTop: "12px", display: "flex", background: "#fff", borderBottom: "2px solid #00693e", boxShadow: "0 2px 4px rgba(0,0,0,0.05)" }}>
-            {[
-              { k: "eval", l: "📋 評価入力" },
-              { k: "result", l: "🏆 結果" }
-            ].map(t => (
-              <button 
-                key={t.k} 
-                onClick={() => setActiveTab(t.k)} 
-                style={{
-                  flex: 1, padding: "12px 4px", border: "none",
-                  background: activeTab === t.k ? "#fff" : "#00693e",
-                  color: activeTab === t.k ? "#00693e" : "#fff",
-                  fontSize: "14px", 
-                  fontWeight: "900",
-                  cursor: "pointer",
-                  transition: "all 0.2s"
-                }}
-              >
-                {t.l}
-              </button>
-            ))}
+          {/* 評価入力／結果ボタン（レースボタンと離し、左右に余裕を持たせる） */}
+          <div style={{ marginTop: "16px", padding: "0 12px" }}>
+            <div style={{ display: "flex", background: "#00693e", borderRadius: "10px", padding: "4px", gap: "4px" }}>
+              {[
+                { k: "eval", l: "📋 評価入力" },
+                { k: "result", l: "🏆 結果" }
+              ].map(t => (
+                <button 
+                  key={t.k} 
+                  onClick={() => setActiveTab(t.k)} 
+                  style={{
+                    flex: 1, padding: "12px 4px", border: "none",
+                    background: activeTab === t.k ? "#fff" : "transparent",
+                    color: activeTab === t.k ? "#00693e" : "#fff",
+                    fontSize: "14px", 
+                    fontWeight: "900",
+                    cursor: "pointer",
+                    borderRadius: "7px",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  {t.l}
+                </button>
+              ))}
+            </div>
           </div>
 
           {activeTab === "eval" && (
@@ -425,14 +428,6 @@
                       ))}
                     </div>
                   ))}
-                  <div style={{ background: "#f0faf3", padding: "12px", borderRadius: "8px", marginTop: "10px" }}>
-                    <div style={{ display: "flex", gap: "6px", marginBottom: "8px" }}>
-                      <input placeholder="新項目" value={newLabel} onChange={e => setNewLabel(e.target.value)} style={{ flex: 1, border: "1px solid #ccc", padding: "6px" }} />
-                      <select value={newCat} onChange={e => setNewCat(e.target.value)}>{CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}</select>
-                    </div>
-                    <button onClick={addItem} style={{ width: "100%", padding: "8px", background: "#00693e", color: "#fff", border: "none", borderRadius: "6px" }}>追加</button>
-                  </div>
-                  <button onClick={fullReset} style={{ width: "100%", marginTop: "20px", color: "#999", fontSize: "12px", background: "none", border: "none" }}>全データをリセット</button>
                 </div>
               </div>
             </div>
