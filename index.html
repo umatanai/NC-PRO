@@ -97,7 +97,9 @@
             const [raceData, setRaceData] = useState(saved?.raceData || {
                 1: { marks: {}, headCount: 10 },
                 2: { marks: {}, headCount: 10 },
-                3: { marks: {}, headCount: 10 }
+                3: { marks: {}, headCount: 10 },
+                4: { marks: {}, headCount: 10 },
+                5: { marks: {}, headCount: 10 }
             });
             const [items, setItems] = useState(saved?.items || DEFAULT_ITEMS);
             
@@ -170,7 +172,9 @@
                     setRaceData({
                         1: { marks: {}, headCount: 10 },
                         2: { marks: {}, headCount: 10 },
-                        3: { marks: {}, headCount: 10 }
+                        3: { marks: {}, headCount: 10 },
+                        4: { marks: {}, headCount: 10 },
+                        5: { marks: {}, headCount: 10 }
                     });
                     setItems(DEFAULT_ITEMS);
                     setActiveTab("eval"); setFocusCat(null);
@@ -188,7 +192,7 @@
                     setItems(prev => prev.filter(i => i.id !== id));
                     setRaceData(prev => {
                         const next = { ...prev };
-                        [1,2,3].forEach(r => {
+                        [1,2,3,4,5].forEach(r => {
                             const newMarks = { ...next[r].marks };
                             Object.keys(newMarks).forEach(k => { if (k.endsWith("-" + id)) delete newMarks[k]; });
                             next[r].marks = newMarks;
@@ -254,7 +258,7 @@
 
                     {/* レース切り替えタブ */}
                     <div style={{ display: "flex", background: "#f8fdf9", borderBottom: "1px solid #ddd", padding: "4px 10px", gap: "4px" }}>
-                        {[1, 2, 3].map(r => (
+                        {[1, 2, 3, 4, 5].map(r => (
                             <button key={r} onClick={() => setCurrentRace(r)} style={{
                                 flex: 1, padding: "6px", borderRadius: "4px", border: "1px solid " + (currentRace === r ? "#00693e" : "#ccc"),
                                 background: currentRace === r ? "#00693e" : "#fff", color: currentRace === r ? "#fff" : "#666",
@@ -323,7 +327,7 @@
                                         </colgroup>
                                         <thead>
                                             <tr style={{ background: "#00693e" }}>
-                                                <th style={{ fontSize: "11px", color: "#fff", fontWeight: "700", textAlign: "left", padding: "7px 6px", borderRight: "1px solid rgba(255,255,255,0.2)" }}>馬番</th>
+                                                <th style={{ position: "sticky", left: 0, zIndex: 10, background: "#00693e", fontSize: "11px", color: "#fff", fontWeight: "700", textAlign: "left", padding: "7px 6px", borderRight: "1px solid rgba(255,255,255,0.2)" }}>馬番</th>
                                                 {shownItems.map(item => (
                                                     <th key={item.id} style={{ fontSize: "10px", color: "#fff", fontWeight: "700", textAlign: "center", padding: "4px 1px", borderRight: "1px solid rgba(255,255,255,0.2)", lineHeight: 1.2 }}>
                                                         <div>{item.label}</div>
@@ -341,7 +345,7 @@
                                                 const rowBg = idx % 2 === 0 ? "#fff" : "#f9faf9";
                                                 return (
                                                     <tr key={horse.number} style={{ background: score > 0 ? "#f0faf3" : rowBg, borderBottom: "1px solid #e8e8e8" }}>
-                                                        <td style={{ padding: "4px 5px", borderRight: "1px solid #e8e8e8" }}>
+                                                        <td style={{ position: "sticky", left: 0, zIndex: 5, background: score > 0 ? "#f0faf3" : rowBg, padding: "4px 5px", borderRight: "1px solid #e8e8e8" }}>
                                                             <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                                                                 <span style={{ width: "20px", height: "20px", background: wc.bg, border: "2px solid " + wc.border, borderRadius: "3px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "900", color: wc.text, flexShrink: 0 }}>{waku}</span>
                                                                 <span style={{ fontSize: "13px", fontWeight: "700" }}>{horse.number}番</span>
